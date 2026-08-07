@@ -1,0 +1,61 @@
+*{
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  height: 100vh;
+  width: 100vw;
+}
+
+#app{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+#app > div{
+  flex: 1;
+  border: 1px solid black;
+}
+
+#left{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10%;
+}
+
+#loginBtn{
+  cursor: pointer;
+  display: flex;
+  height: fit-content;
+  width: fit-content;
+  padding: 1.5% 2%;
+  border-radius: 5px;
+  border: 2px solid black;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+
+#loginBtn img{
+  height: 20px;
+  width: 20px;
+}
+
+#logoutBtn{
+  cursor: pointer;
+  border: 2px solid black;
+  padding: 1.5% 2%;
+  border-radius: 5px;
+}
+
+#right{
+  padding: 2%;
+  overflow-wrap: anywhere;
+}
