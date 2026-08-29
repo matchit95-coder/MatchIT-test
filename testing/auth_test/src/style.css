@@ -30,6 +30,10 @@ body{
   gap: 10%;
 }
 
+#welcome-msg{
+  text-align: center;
+}
+
 #loginBtn{
   cursor: pointer;
   display: flex;
@@ -58,4 +62,5 @@ body{
 #right{
   padding: 2%;
   overflow-wrap: anywhere;
+  overflow-y: scroll;
 }

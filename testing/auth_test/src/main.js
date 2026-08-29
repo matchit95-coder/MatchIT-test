@@ -1,28 +1,26 @@
 import './style.css'
-import { createClient } from '@supabase/supabase-js';
+import supabase from './supabase';
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const result = document.getElementById("result");
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-)
+const welcome_message = document.getElementById("welcome-msg");
 
 loginBtn.addEventListener("click", async (e) => {
   result.textContent = "processing.......";
 
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
-  });
+});
 
   if (error) {
     console.error(error);
+    alert("Error initiating google OAuth")
   }
 })
 
 logoutBtn.addEventListener("click", async (e) => {
+  result.textContent = "Logging out..."
   const { error } = await supabase.auth.signOut();
 
   if (error) {
@@ -31,6 +29,7 @@ logoutBtn.addEventListener("click", async (e) => {
   }
 
   result.textContent = "Logged out";
+  welcome_message.textContent = "Welcome to the auth test"
 })
 
 async function checkUser() {
@@ -41,10 +40,13 @@ async function checkUser() {
   if (session) {
     result.textContent = `Access Token: ${session.access_token}`;
     console.log('Logged in!');
-    console.log('Whole session', session)
+    console.log('Whole session', session);
     console.log('User:', session.user);
     console.log('Access token:', session.access_token);
+    welcome_message.textContent = `Welcome to the auth test, ${session.user.email}`
   }
 }
 
+// this function automatically runs when user is redirected
+// back here again after successful OAuth transaction
 checkUser();
