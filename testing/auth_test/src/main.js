@@ -4,9 +4,30 @@ import supabase from './supabase';
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const result = document.getElementById("result");
+const copyBtn = document.getElementById("copy-session");
 const welcome_message = document.getElementById("welcome-msg");
 
+let copy_access_token = null;
+
+async function logOut(){
+  result.textContent = "Logging out..."
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    alert(`Failed to log out: ${error}`)
+    return;
+  }
+
+  copy_access_token = null;
+  result.textContent = "Logged out";
+  welcome_message.textContent = "Welcome to the auth test"
+}
+
 loginBtn.addEventListener("click", async (e) => {
+  if(copy_access_token){
+    await logOut();
+  }
+
   result.textContent = "processing.......";
 
   const { error } = await supabase.auth.signInWithOAuth({
@@ -20,16 +41,16 @@ loginBtn.addEventListener("click", async (e) => {
 })
 
 logoutBtn.addEventListener("click", async (e) => {
-  result.textContent = "Logging out..."
-  const { error } = await supabase.auth.signOut();
+  logOut();
+})
 
-  if (error) {
-    alert(`Failed to log out: ${error}`)
-    return;
+copyBtn.addEventListener("click", async () => {
+  if(copy_access_token){
+    await navigator.clipboard.writeText(copy_access_token);
+    alert('Copy successful');
+  }else{
+    alert('Seems like its empty, SORREHH HAHAHAHA');
   }
-
-  result.textContent = "Logged out";
-  welcome_message.textContent = "Welcome to the auth test"
 })
 
 async function checkUser() {
@@ -38,7 +59,8 @@ async function checkUser() {
   } = await supabase.auth.getSession();
 
   if (session) {
-    result.textContent = `Access Token: ${session.access_token}`;
+    copy_access_token = session.access_token;
+    result.textContent = `Access Token Tail: ${session.access_token.slice(-10)}`;
     console.log('Logged in!');
     console.log('Whole session', session);
     console.log('User:', session.user);

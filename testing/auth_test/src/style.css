@@ -64,3 +64,16 @@ body{
   overflow-wrap: anywhere;
   overflow-y: scroll;
 }
+
+#copy-session{
+  cursor: pointer;
+  display: flex;
+  height: fit-content;
+  width: fit-content;
+  padding: 1.5% 2%;
+  border-radius: 5px;
+  border: 2px solid black;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
